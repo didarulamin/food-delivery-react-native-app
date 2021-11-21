@@ -1,21 +1,61 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from "react";
+import { View, Text } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Home from "./src/screens/Home";
+import OnBoarding from "./src/components/OnBoarding/OnBoarding";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Login from "./src/screens/Login";
+import Register from "./src/screens/Register";
+import SignUpBio from "./src/screens/SignUpBio";
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+const MainApp = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        {/* <Stack.Screen name="Home" component={Home} /> */}
+        {/*    <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        /> */}
+        {/*  <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ headerShown: false }}
+        /> */}
+        <Stack.Screen
+          name="signUpBio"
+          component={SignUpBio}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+function App() {
+  const [onBoarding, setOnBoarding] = React.useState(false);
+
+  console.log("onBoarding", onBoarding);
+
+  React.useEffect(() => {
+    (async () => {
+      const saved = await AsyncStorage.getItem("onboarding");
+      console.log("saved", saved);
+      const initialValue = JSON.parse(saved);
+      console.log("initialValue", initialValue);
+      setOnBoarding(initialValue);
+    })();
+  }, [onBoarding]);
+
+  return onBoarding ? (
+    <OnBoarding setOnBoarding={setOnBoarding} />
+  ) : (
+    <MainApp />
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
