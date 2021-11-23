@@ -9,49 +9,18 @@ import Login from "./src/screens/Login";
 import Register from "./src/screens/Register";
 import SignUpBio from "./src/screens/SignUpBio";
 import AppLoading from "expo-app-loading";
-import MainScreen from "./src/screens/MainScreen";
+
 import TabNavigation from "./src/components/TabNavigation/TabNavigation";
 import { useFonts } from "expo-font";
 
-const Stack = createNativeStackNavigator();
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import Navigation from "./src/components/TabNavigation/TabNavigation";
 
 const MainApp = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {/*   <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: false }}
-        /> */}
-
-        <Stack.Screen
-          name="TabNavigation"
-          component={TabNavigation}
-          options={{ headerShown: false }}
-        />
-        {/*   <Stack.Screen
-          name="MainScreen"
-          component={MainScreen}
-          options={{ headerShown: false }}
-        /> */}
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Register"
-          component={Register}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="signUpBio"
-          component={SignUpBio}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <Navigation />
+    </SafeAreaProvider>
   );
 };
 

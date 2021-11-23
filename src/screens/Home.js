@@ -14,8 +14,9 @@ import InputIcon from "../components/InputIcon";
 import BannerSlider from "../components/Slider/BannerSlider";
 import { spacing, typography } from "../../theme";
 import RestaurantData from "../../DemoData/Restaurant";
+import FoodData from "../../DemoData/Food";
 
-export default function Home() {
+export default function Home({ navigation }) {
   // console.log(RestaurantData);
   const renderItem = ({ item }) => (
     <View
@@ -46,8 +47,9 @@ export default function Home() {
       <Text
         style={{
           color: "black",
-          fontFamily: typography.Small,
+          fontFamily: typography.Medium,
           marginTop: spacing[0],
+          color: "#CECDD2",
         }}
       >
         {item.time}
@@ -55,8 +57,63 @@ export default function Home() {
     </View>
   );
 
+  const popularMenuItem = ({ item }) => (
+    <View
+      key={item.id}
+      style={{
+        backgroundColor: "white",
+        flexDirection: "row",
+        height: 90,
+        // width: 330,
+        alignItems: "center",
+        padding: 20,
+        marginVertical: spacing[3],
+        borderRadius: 15,
+      }}
+    >
+      <Image source={item.image} />
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <View style={{ marginLeft: 15 }}>
+          <Text style={{ fontSize: 20, fontFamily: typography.MediumBold }}>
+            {item.name}
+          </Text>
+          <Text
+            style={{
+              fontSize: 20,
+              fontFamily: typography.Medium,
+              color: "#CECDD2",
+            }}
+          >
+            {item.restaurant}
+          </Text>
+        </View>
+
+        <Text
+          style={{
+            fontSize: 24,
+            fontFamily: typography.LargeBold,
+            color: "#FFAD1D",
+          }}
+        >
+          ${item.price}
+        </Text>
+      </View>
+    </View>
+  );
+
+  const viewMoreHandler = (params) => {
+    console.log(params);
+  };
+
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ paddingBottom: 70 }}>
       <View style={styles.container}>
         <Image
           style={styles.image}
@@ -114,30 +171,70 @@ export default function Home() {
           {/* <Image source={require("../../assets/Promo.png")} resizeMode="cover" />  */}
         </View>
 
-        <View style={{ padding: 20 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            padding: 20,
+          }}
+        >
           <Text style={{ fontFamily: typography.MediumBold, fontSize: 20 }}>
-            Nearest Restaurant
+            Nearest Restaurants
           </Text>
-
-          <SafeAreaView
+          <Text
+            onPress={() => navigation.navigate("NearestRestaurants")}
             style={{
-              flexDirection: "row",
-              display: "flex",
-              justifyContent: "space-around",
+              color: "#E6A986",
+              fontFamily: typography.Medium,
+              fontSize: 16,
             }}
           >
-            {RestaurantData.slice(0, 2).map((item) => renderItem({ item }))}
-          </SafeAreaView>
-          <SafeAreaView
-            style={{
-              flexDirection: "row",
-              display: "flex",
-              justifyContent: "space-around",
-            }}
-          >
-            {RestaurantData.slice(0, 2).map((item) => renderItem({ item }))}
-          </SafeAreaView>
+            View More
+          </Text>
         </View>
+
+        <SafeAreaView
+          style={{
+            flexDirection: "row",
+            display: "flex",
+            justifyContent: "space-around",
+          }}
+        >
+          {RestaurantData.slice(0, 2).map((item) => renderItem({ item }))}
+        </SafeAreaView>
+
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingHorizontal: 20,
+          }}
+        >
+          <Text style={{ fontFamily: typography.MediumBold, fontSize: 20 }}>
+            Popular Menu
+          </Text>
+          <Text
+            onPress={() => navigation.navigate("PopularMenu")}
+            style={{
+              color: "#E6A986",
+              fontFamily: typography.Medium,
+              fontSize: 16,
+            }}
+          >
+            View More
+          </Text>
+        </View>
+
+        <SafeAreaView
+          style={{
+            flexDirection: "column",
+            display: "flex",
+            justifyContent: "space-around",
+            padding: 20,
+          }}
+        >
+          {FoodData.slice(0, 2).map((item) => popularMenuItem({ item }))}
+        </SafeAreaView>
       </View>
     </ScrollView>
   );
