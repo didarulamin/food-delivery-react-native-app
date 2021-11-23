@@ -68,7 +68,11 @@ export default function Register({ navigation }) {
             setValue={setNewsLetter}
           />
         </View>
-        <Button title="Create Account" titleColor={{ color: "white" }} />
+        <Button
+          title="Create Account"
+          titleColor={{ color: "white" }}
+          onPress={() => navigation.navigate("signUpBio")}
+        />
         <TouchableOpacity onPress={() => navigation.navigate("Login")}>
           <Text
             style={{

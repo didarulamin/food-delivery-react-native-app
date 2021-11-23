@@ -1,13 +1,19 @@
 import React from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-const InputIcon = ({ placeholder, onChangeText, value, iconName }) => {
+const InputIcon = ({
+  placeholder,
+  onChangeText,
+  value,
+  iconName,
+  customStyles,
+}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <TextInput
         onChangeText={onChangeText}
         placeholder={placeholder}
-        style={styles.input}
+        style={[styles.input, customStyles]}
         value={value}
       />
       <Icon style={styles.icon} name={iconName} color="#53E88B" size={24} />
