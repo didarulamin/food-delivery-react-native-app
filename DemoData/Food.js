@@ -22,7 +22,7 @@ const FoodData = [
   },
   {
     id: 4,
-    name: "Herbal Pancake",
+    name: "Herbal Pancake ",
     price: "7",
     image: require("../assets/Menu1.png"),
     restaurant: "Smart Resto",

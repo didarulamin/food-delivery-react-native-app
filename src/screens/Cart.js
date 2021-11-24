@@ -82,10 +82,18 @@ export default function Cart() {
             alignItems: "center",
           }}
         >
+          <Text
+            style={{
+              fontSize: 18,
+              fontFamily: typography.MediumBold,
+              position: "absolute",
+              top: -25,
+              left: 10,
+            }}
+          >
+            {item.name}
+          </Text>
           <View style={{ marginLeft: 10 }}>
-            <Text style={{ fontSize: 18, fontFamily: typography.MediumBold }}>
-              {item.name.slice(0, 10)}...
-            </Text>
             <Text
               style={{
                 fontSize: 14,
