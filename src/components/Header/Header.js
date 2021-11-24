@@ -1,13 +1,14 @@
 import React from "react";
-import { StatusBar, StyleSheet, View, Text } from "react-native";
+import { StatusBar, StyleSheet, View, Text, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 // import { spacing, colors } from "../../theme";
 // import Text from "../text/text";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
+import { typography } from "../../../theme";
 
-const Header = ({ backButton = true }) => {
+const Header = ({ backButton = true, heading, subheading }) => {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.header}>
@@ -17,6 +18,10 @@ const Header = ({ backButton = true }) => {
           alignItems: "center",
         }}
       >
+        <Image
+          style={styles.image}
+          source={require("../../../assets/Pattern.png")}
+        />
         {backButton && (
           <TouchableOpacity
             onPress={() => {
@@ -38,6 +43,34 @@ const Header = ({ backButton = true }) => {
           </TouchableOpacity>
         )}
       </View>
+      <View>
+        {heading && (
+          <Text
+            style={{
+              fontSize: 26,
+              // fontWeight: "bold",
+              textAlign: "left",
+              width: "70%",
+              marginVertical: 10,
+              fontFamily: typography.MediumBold,
+            }}
+          >
+            {heading}
+          </Text>
+        )}
+        {subheading && (
+          <Text
+            style={{
+              fontSize: 16,
+              textAlign: "left",
+              marginVertical: 10,
+              fontFamily: typography.Small,
+            }}
+          >
+            {subheading}
+          </Text>
+        )}
+      </View>
 
       {/* <StatusBar backgroundColor="#ffff" /> */}
     </SafeAreaView>
@@ -51,6 +84,12 @@ const styles = StyleSheet.create({
     // borderBottomWidth: 1,
     // borderBottomColor: "white",
     // backgroundColor: "black",
+  },
+  image: {
+    position: "absolute",
+    top: -100,
+    right: -50,
+    transform: [{ rotate: "45deg" }],
   },
 });
 

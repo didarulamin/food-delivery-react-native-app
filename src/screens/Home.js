@@ -6,6 +6,7 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
+  FlatList,
 } from "react-native";
 import OnBoarding from "../components/OnBoarding/OnBoarding";
 import { Ionicons } from "@expo/vector-icons";
@@ -29,6 +30,7 @@ export default function Home({ navigation }) {
         alignItems: "center",
         marginVertical: spacing[4],
         borderRadius: 15,
+        margin: spacing[2],
       }}
     >
       <Image
@@ -194,13 +196,22 @@ export default function Home({ navigation }) {
         </View>
 
         <SafeAreaView
-          style={{
+        /*   style={{
             flexDirection: "row",
             display: "flex",
             justifyContent: "space-around",
-          }}
+          }} */
         >
-          {RestaurantData.slice(0, 2).map((item) => renderItem({ item }))}
+          {/* {RestaurantData.slice(0, 2).map((item) => renderItem({ item }))} */}
+
+          <FlatList
+            contentContainerStyle={{ paddingHorizontal: 10 }}
+            showsHorizontalScrollIndicator={false}
+            horizontal={true}
+            data={RestaurantData}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+          />
         </SafeAreaView>
 
         <View
@@ -233,7 +244,7 @@ export default function Home({ navigation }) {
             padding: 20,
           }}
         >
-          {FoodData.slice(0, 2).map((item) => popularMenuItem({ item }))}
+          {FoodData.slice(0, 4).map((item) => popularMenuItem({ item }))}
         </SafeAreaView>
       </View>
     </ScrollView>

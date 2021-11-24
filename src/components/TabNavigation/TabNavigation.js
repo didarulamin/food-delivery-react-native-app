@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "../../screens/Home";
@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import NearestRestaurant from "../../screens/NearestRestaurant";
 import PopularMenu from "../../screens/PopularMenu";
+import RestaurantDetails from "../../screens/RestaurantDetails";
 
 export default function Navigation() {
   return (
@@ -28,7 +29,7 @@ function TabNavigation() {
         tabBarShowLabel: false,
         tabBarStyle: {
           position: "absolute",
-          bottom: 0,
+          bottom: 5,
           left: 20,
           right: 20,
           backgroundColor: "white",
@@ -43,19 +44,12 @@ function TabNavigation() {
         component={HomeStackScreens}
         options={{
           headerShown: false,
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({ focused, endTab = false }) => (
             <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                // justifyContent: "space-between",
-                backgroundColor: "#eafaf2",
-                borderRadius: 15,
-                padding: 10,
-                width: 105,
-                height: 50,
-                marginLeft: 30,
-              }}
+              style={[
+                focused ? styles.activeTab : styles.inactiveTab,
+                { left: endTab ? -10 : 10 },
+              ]}
             >
               <MaterialIcons
                 name="home-filled"
@@ -63,14 +57,17 @@ function TabNavigation() {
                 color="black"
                 style={{ color: focused ? "#ff5a5f" : "#8f8f8f" }}
               />
-              <Text
-                style={{
-                  color: focused ? "#ff5a5f" : "black",
-                  marginLeft: 10,
-                }}
-              >
-                Home
-              </Text>
+
+              {focused && (
+                <Text
+                  style={{
+                    color: "black",
+                    marginLeft: 5,
+                  }}
+                >
+                  Home
+                </Text>
+              )}
             </View>
           ),
         }}
@@ -81,12 +78,22 @@ function TabNavigation() {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <View style={{ marginLeft: 40 }}>
+            <View style={focused ? styles.activeTab : styles.inactiveTab}>
               <Ionicons
                 name="person-sharp"
-                size={35}
+                size={30}
                 style={{ color: focused ? "#ff5a5f" : "#8f8f8f" }}
               />
+              {focused && (
+                <Text
+                  style={{
+                    color: "black",
+                    marginLeft: 5,
+                  }}
+                >
+                  Profile
+                </Text>
+              )}
             </View>
           ),
         }}
@@ -104,12 +111,22 @@ function TabNavigation() {
             zIndex: 1,
           },
           tabBarIcon: ({ focused }) => (
-            <View>
+            <View style={focused ? styles.activeTab : styles.inactiveTab}>
               <Ionicons
                 name="cart"
-                size={35}
+                size={30}
                 style={{ color: focused ? "#ff5a5f" : "#8f8f8f" }}
               />
+              {focused && (
+                <Text
+                  style={{
+                    color: "black",
+                    marginLeft: 5,
+                  }}
+                >
+                  Cart
+                </Text>
+              )}
             </View>
           ),
         }}
@@ -126,13 +143,28 @@ function TabNavigation() {
             left: 15,
             zIndex: 1,
           },
-          tabBarIcon: ({ focused }) => (
-            <View style={{}}>
+          tabBarIcon: ({ focused, endTab = true }) => (
+            <View
+              style={[
+                focused ? styles.activeTab : styles.inactiveTab,
+                { left: endTab ? -10 : 10 },
+              ]}
+            >
               <Ionicons
                 name="chatbubble-ellipses"
-                size={35}
+                size={30}
                 style={{ color: focused ? "#ff5a5f" : "#8f8f8f" }}
               />
+              {focused && (
+                <Text
+                  style={{
+                    color: "black",
+                    marginLeft: 5,
+                  }}
+                >
+                  Chat
+                </Text>
+              )}
             </View>
           ),
         }}
@@ -154,6 +186,11 @@ function HomeStackScreens() {
       <HomeStack.Screen
         name="PopularMenu"
         component={PopularMenu}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name="RestaurantDetails"
+        component={RestaurantDetails}
         options={{ headerShown: false }}
       />
     </HomeStack.Navigator>
@@ -186,3 +223,20 @@ function MessagesStackScreens() {
     </MessagesStack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  activeTab: {
+    flexDirection: "row",
+    alignItems: "center",
+    // justifyContent: "space-between",
+    backgroundColor: "#eafaf2",
+    borderRadius: 15,
+    padding: 10,
+    width: 95,
+    height: 50,
+    position: "relative",
+
+    // marginLeft: 30,
+  },
+  inactiveTab: {},
+});

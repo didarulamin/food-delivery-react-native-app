@@ -1,14 +1,18 @@
 import React from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet } from "react-native";
+import { useRoute } from "@react-navigation/native";
 import Header from "../components/Header/Header";
+export default function RestaurantDetails() {
+  const route = useRoute();
+  const { item } = route.params;
 
-export default function Messages() {
   return (
     <SafeAreaView style={styles.container}>
       <Header
-        heading="Chat"
+        heading={item.name}
         // subheading=" This data will be displayed in your account profile for security"
       />
+      <Text>{route.params.name}</Text>
     </SafeAreaView>
   );
 }
