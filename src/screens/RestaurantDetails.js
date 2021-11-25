@@ -1,25 +1,24 @@
 import React from "react";
-import { View, Text, SafeAreaView, StyleSheet } from "react-native";
-import { useRoute } from "@react-navigation/native";
-import Header from "../components/Header/Header";
-export default function RestaurantDetails() {
-  const route = useRoute();
-  const { item } = route.params;
+import { View, Text, StyleSheet } from "react-native";
+import SwipeSheet from "../components/DragableSheet/SwipeSheet";
+import RestaurantDetailsData from "../components/RestaurantDetailsData/RestaurantDetailsData";
+// import { LoremIpsum } from "./LoremIpsum";
 
+export default function RestaurantDetails() {
   return (
-    <SafeAreaView style={styles.container}>
-      <Header
-        heading={item.name}
-        // subheading=" This data will be displayed in your account profile for security"
-      />
-      <Text>{route.params.name}</Text>
-    </SafeAreaView>
+    <View>
+      <SwipeSheet>
+        <View style={styles.container}>
+          <RestaurantDetailsData />
+        </View>
+      </SwipeSheet>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 20,
   },
 });
