@@ -163,9 +163,9 @@ export default function SwipeSheet({ children }) {
                     onScrollBeginDrag={onRegisterLastScroll}
                     scrollEventThrottle={1}
                   >
-                    {/* <LoremIpsum /> */}
+                    <LoremIpsum />
 
-                    {children}
+                    {/* {children} */}
                   </Animated.ScrollView>
                 </NativeViewGestureHandler>
               </Animated.View>
