@@ -19,8 +19,9 @@ import TestimonialData from "../../../DemoData/Testimonial";
 import { colors, spacing, typography } from "../../../theme";
 import Steve from "react-native-steve";
 import { useNavigation } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
 
-export default function RestaurantDetailsData({ RestaurantData }) {
+export default function PopularMenuDetailsData({ menuData }) {
   const navigation = useNavigation();
   const renderItem = ({ item }) => (
     <Pressable
@@ -190,70 +191,28 @@ export default function RestaurantDetailsData({ RestaurantData }) {
 
       <View style={{ marginBottom: spacing[4] }}>
         <Text style={{ fontFamily: typography.MediumBold, fontSize: 27 }}>
-          {RestaurantData.name}
+          {menuData.name}
         </Text>
         <View style={{ flexDirection: "row", marginVertical: spacing[2] }}>
-          <View style={{ flexDirection: "row" }}>
-            <EvilIcons name="location" size={24} color="#53E88B" />
-            <Text style={{ fontSize: 16 }}>19 km</Text>
-          </View>
           <View style={{ flexDirection: "row" }}>
             <EvilIcons name="star" size={24} color="#53E88B" />
             <Text style={{ fontSize: 16 }}>4.3 Rating</Text>
           </View>
+          <View style={{ flexDirection: "row", marginHorizontal: spacing[2] }}>
+            <Feather name="shopping-bag" size={24} color="black" />
+            <Text style={{ fontSize: 16 }}>2000+ Order</Text>
+          </View>
         </View>
         <Text style={{ fontSize: 16, fontFamily: typography.Regular }}>
-          Most whole Alaskan Red King Crabs get broken down into legs, claws,
-          and lump meat. We offer all of these options as well in our online
-          shop, but there is nothing like getting the whole.
+          {`Nulla occaecat velit laborum exercitation ullamco. Elit labore eu aute
+elit nostrud culpa velit excepteur deserunt sunt. Velit non est cillum
+consequat cupidatat ex Lorem laboris labore aliqua ad duis eu laborum.
+          \n Strowberry\n Cream\n wheat\n
+Nulla occaecat velit laborum
+exercitation ullamco. Elit labore eu aute elit nostrud culpa velit
+excepteur deserunt sunt.`}
         </Text>
       </View>
-
-      <SafeAreaView style={{ Width: 350 }}>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Text style={{ fontSize: 20, fontFamily: typography.MediumBold }}>
-            Popular Menu
-          </Text>
-          <Text style={{ color: "#FF7C32", fontSize: 16 }}>View All</Text>
-        </View>
-        {/*   <FlatList
-          // contentContainerStyle={{ paddingHorizontal: 10 }}
-          showsHorizontalScrollIndicator={false}
-          horizontal={true}
-          data={RestaurantData}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        /> */}
-
-        <Animated.ScrollView
-          // style={{ maxWidth: 300 }}
-          scrollEnabled={true}
-          horizontal={true}
-          nestedScrollEnabled={true}
-        >
-          {/*  {RestaurantData.slice(0, 4).map((item, index) =>
-            renderItem({ item })
-          )} */}
-
-          <Steve
-            // isRTL={false}
-            data={FoodData}
-            renderItem={renderItem}
-            // itemStyle={{ margin: 5 }}
-            // containerStyle={steveContainer}
-            keyExtractor={(item) => item.id}
-          />
-
-          {/*    <FlatList
-            // contentContainerStyle={{ paddingHorizontal: 10 }}
-            // showsHorizontalScrollIndicator={false}
-            horizontal={true}
-            data={RestaurantData}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-          /> */}
-        </Animated.ScrollView>
-      </SafeAreaView>
 
       <SafeAreaView>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>

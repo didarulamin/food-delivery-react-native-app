@@ -15,12 +15,13 @@ import {
   TapGestureHandler,
 } from "react-native-gesture-handler";
 import { LoremIpsum } from "../../screens/LoremIpsum";
+import BannerSlider from "../Slider/BannerSlider";
 
 const HEADER_HEIGHT = 50;
 const windowHeight = Dimensions.get("window").height;
 const SNAP_POINTS_FROM_TOP = [100, windowHeight * 0.5, windowHeight * 0.4];
 
-export default function SwipeSheet({ children }) {
+export default function SwipeSheet({ content, image }) {
   const masterdrawer = useRef();
   const drawer = useRef();
   const drawerheader = useRef();
@@ -106,13 +107,15 @@ export default function SwipeSheet({ children }) {
       }).start();
     }
   };
+  console.log(image);
 
   // console.log("lastSnap", lastSnap);
   // console.log(lastSnap - SNAP_POINTS_FROM_TOP[0]);
   return (
     <View>
       <Image
-        source={require("../../../assets/Photo_restaurant.png")}
+        // source={require("../../../assets/Photo_restaurant.png")}
+        source={image}
         resizeMode="cover"
         style={styles.image}
       />
@@ -146,9 +149,7 @@ export default function SwipeSheet({ children }) {
               onGestureEvent={onGestureEvent}
               onHandlerStateChange={onHandlerStateChange}
             >
-              <Animated.View
-              // style={{ flex: 1, height: "100%", backgroundColor: "white" }}
-              >
+              <Animated.View style={{ backgroundColor: "#f2f2f2" }}>
                 <NativeViewGestureHandler
                   ref={scroll}
                   waitFor={masterdrawer}
@@ -162,10 +163,13 @@ export default function SwipeSheet({ children }) {
                     bounces={false}
                     onScrollBeginDrag={onRegisterLastScroll}
                     scrollEventThrottle={1}
+                    scrollEnabled={true}
+                    nestedScrollEnabled={true}
                   >
-                    <LoremIpsum />
+                    {/* <Animated.View> */}
 
-                    {/* {children} */}
+                    {content}
+                    {/* </Animated.View> */}
                   </Animated.ScrollView>
                 </NativeViewGestureHandler>
               </Animated.View>
@@ -180,8 +184,7 @@ export default function SwipeSheet({ children }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    height: "100%",
+    // backgroundColor: "white",
   },
   header: {
     height: HEADER_HEIGHT,
@@ -196,21 +199,7 @@ const styles = StyleSheet.create({
     height: "80%",
   },
 
-  parent: {
-    flex: 1,
-    height: 50,
-    width: "100%",
-    transform: [{ scaleX: 2 }],
-    borderTopStartRadius: 200,
-    borderTopEndRadius: 200,
-    overflow: "hidden",
-  },
-  child: {
-    flex: 1,
-    transform: [{ scaleX: 0.5 }],
-
-    backgroundColor: "yellow",
-    alignItems: "center",
-    justifyContent: "center",
+  scrollView: {
+    height: "100%",
   },
 });

@@ -12,11 +12,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import NearestRestaurant from "../../screens/NearestRestaurant";
 import PopularMenu from "../../screens/PopularMenu";
 import RestaurantDetails from "../../screens/RestaurantDetails";
+import PopularMenuDetails from "../../screens/PopularMenuDetails";
 
 export default function Navigation() {
   return (
     <NavigationContainer independent={true}>
-      <TabNavigation />
+      <MainNavigation />
     </NavigationContainer>
   );
 }
@@ -173,11 +174,40 @@ function TabNavigation() {
   );
 }
 
+const Stack = createNativeStackNavigator();
+
+function MainNavigation() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="TabNavigation"
+        component={TabNavigation}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RestaurantDetails"
+        component={RestaurantDetails}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PopularMenuDetails"
+        component={PopularMenuDetails}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 const HomeStack = createNativeStackNavigator();
+
 function HomeStackScreens() {
   return (
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-      <HomeStack.Screen name="Home" component={Home} />
+      <HomeStack.Screen
+        name="Home"
+        component={Home}
+        options={{ headerShown: false }}
+      />
       <HomeStack.Screen
         name="NearestRestaurants"
         component={NearestRestaurant}
@@ -188,11 +218,6 @@ function HomeStackScreens() {
         component={PopularMenu}
         options={{ headerShown: false }}
       />
-      <HomeStack.Screen
-        name="RestaurantDetails"
-        component={RestaurantDetails}
-        options={{ headerShown: false }}
-      />
     </HomeStack.Navigator>
   );
 }
@@ -201,7 +226,11 @@ const ProfileStack = createNativeStackNavigator();
 function ProfileStackScreens() {
   return (
     <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
-      <ProfileStack.Screen name="User" component={User} />
+      <ProfileStack.Screen
+        name="User"
+        component={User}
+        options={{ headerShown: false }}
+      />
     </ProfileStack.Navigator>
   );
 }

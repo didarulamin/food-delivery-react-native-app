@@ -19,7 +19,7 @@ const Button = ({ title, customStyles, onPress, titleColor }) => {
 const styles = StyleSheet.create({
   buttons: {
     borderRadius: 50,
-    width: 165,
+    // width: 165,
     height: 60,
 
     justifyContent: "center",

@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import OnBoarding from "../components/OnBoarding/OnBoarding";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,11 +17,15 @@ import BannerSlider from "../components/Slider/BannerSlider";
 import { spacing, typography } from "../../theme";
 import RestaurantData from "../../DemoData/Restaurant";
 import FoodData from "../../DemoData/Food";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Home({ navigation }) {
+export default function Home() {
   // console.log(RestaurantData);
+
+  const navigation = useNavigation();
+
   const renderItem = ({ item }) => (
-    <View
+    <TouchableOpacity
       key={item.id}
       style={{
         height: 184,
@@ -32,6 +37,7 @@ export default function Home({ navigation }) {
         borderRadius: 15,
         margin: spacing[2],
       }}
+      onPress={() => navigation.navigate("RestaurantDetails", { item })}
     >
       <Image
         style={{ height: 73, width: 96, marginTop: spacing[6] }}
@@ -56,11 +62,11 @@ export default function Home({ navigation }) {
       >
         {item.time}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 
   const popularMenuItem = ({ item }) => (
-    <View
+    <TouchableOpacity
       key={item.id}
       style={{
         backgroundColor: "white",
@@ -72,6 +78,7 @@ export default function Home({ navigation }) {
         marginVertical: spacing[3],
         borderRadius: 15,
       }}
+      onPress={() => navigation.navigate("PopularMenuDetails", { item })}
     >
       <Image source={item.image} />
       <View
@@ -107,7 +114,7 @@ export default function Home({ navigation }) {
           ${item.price}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   const viewMoreHandler = (params) => {

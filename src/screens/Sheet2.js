@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  Animated,
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  Image,
-} from "react-native";
+import { Animated, StyleSheet, Text, View, Dimensions } from "react-native";
 import {
   PanGestureHandler,
   NativeViewGestureHandler,
@@ -15,12 +8,9 @@ import {
 } from "react-native-gesture-handler";
 import { LoremIpsum } from "./LoremIpsum";
 
-// import { LoremIpsum } from '../common';
-// import { USE_NATIVE_DRIVER } from '../config';
-
 const HEADER_HEIGHT = 50;
 const windowHeight = Dimensions.get("window").height;
-const SNAP_POINTS_FROM_TOP = [100, windowHeight * 0.4, windowHeight * 0.4];
+const SNAP_POINTS_FROM_TOP = [50, windowHeight * 0.4, windowHeight * 0.8];
 
 export class BottomSheet extends Component {
   masterdrawer = React.createRef();
@@ -105,76 +95,79 @@ export class BottomSheet extends Component {
   };
   render() {
     return (
-      <View>
-        {/*   <Image
-          source={require("../../assets/Photo_restaurant.png")}
-          resizeMode="cover"
-          style={styles.image}
-        /> */}
-        <TapGestureHandler
-          maxDurationMs={100000}
-          ref={this.masterdrawer}
-          maxDeltaY={this.state.lastSnap - SNAP_POINTS_FROM_TOP[0]}
-        >
-          <View style={StyleSheet.absoluteFillObject} pointerEvents="box-none">
-            <Animated.View
-              style={[
-                StyleSheet.absoluteFillObject,
-                {
-                  transform: [{ translateY: this._translateY }],
-                },
-              ]}
+      <TapGestureHandler
+        maxDurationMs={100000}
+        ref={this.masterdrawer}
+        maxDeltaY={this.state.lastSnap - SNAP_POINTS_FROM_TOP[0]}
+      >
+        <View style={StyleSheet.absoluteFillObject} pointerEvents="box-none">
+          <Animated.View
+            style={[
+              StyleSheet.absoluteFillObject,
+              {
+                transform: [{ translateY: this._translateY }],
+              },
+            ]}
+          >
+            <PanGestureHandler
+              ref={this.drawerheader}
+              simultaneousHandlers={[this.scroll, this.masterdrawer]}
+              shouldCancelWhenOutside={false}
+              onGestureEvent={this._onGestureEvent}
+              onHandlerStateChange={this._onHeaderHandlerStateChange}
             >
-              <PanGestureHandler
-                ref={this.drawerheader}
-                simultaneousHandlers={[this.scroll, this.masterdrawer]}
-                shouldCancelWhenOutside={false}
-                onGestureEvent={this._onGestureEvent}
-                onHandlerStateChange={this._onHeaderHandlerStateChange}
-              >
-                <Animated.View style={styles.header} />
-              </PanGestureHandler>
-              <PanGestureHandler
-                ref={this.drawer}
-                simultaneousHandlers={[this.scroll, this.masterdrawer]}
-                shouldCancelWhenOutside={false}
-                onGestureEvent={this._onGestureEvent}
-                onHandlerStateChange={this._onHandlerStateChange}
-              >
-                <Animated.View
-                  style={{ flex: 1, height: 300, backgroundColor: "white" }}
+              <Animated.View style={styles.header} />
+            </PanGestureHandler>
+            <PanGestureHandler
+              ref={this.drawer}
+              simultaneousHandlers={[this.scroll, this.masterdrawer]}
+              shouldCancelWhenOutside={false}
+              onGestureEvent={this._onGestureEvent}
+              onHandlerStateChange={this._onHandlerStateChange}
+            >
+              <Animated.View style={styles.container}>
+                <NativeViewGestureHandler
+                  ref={this.scroll}
+                  waitFor={this.masterdrawer}
+                  simultaneousHandlers={this.drawer}
                 >
-                  <NativeViewGestureHandler
-                    ref={this.scroll}
-                    waitFor={this.masterdrawer}
-                    simultaneousHandlers={this.drawer}
+                  <Animated.ScrollView
+                    style={[
+                      styles.scrollView,
+                      { marginBottom: SNAP_POINTS_FROM_TOP[0] },
+                    ]}
+                    bounces={false}
+                    onScrollBeginDrag={this._onRegisterLastScroll}
+                    scrollEventThrottle={1}
                   >
-                    <Animated.ScrollView
-                      style={[
-                        styles.scrollView,
-                        { marginBottom: SNAP_POINTS_FROM_TOP[0] },
-                      ]}
-                      bounces={false}
-                      onScrollBeginDrag={this._onRegisterLastScroll}
-                      scrollEventThrottle={1}
-                    >
-                      <Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      </Text>
-                      <LoremIpsum />
-                    </Animated.ScrollView>
-                  </NativeViewGestureHandler>
-                </Animated.View>
-              </PanGestureHandler>
-            </Animated.View>
-          </View>
-        </TapGestureHandler>
-      </View>
+                    <LoremIpsum />
+                    <LoremIpsum />
+                    <LoremIpsum />
+                    <View>
+                        <Text><LoremIpsum /></Text>
+                    </View>
+                  </Animated.ScrollView>
+                </NativeViewGestureHandler>
+              </Animated.View>
+            </PanGestureHandler>
+          </Animated.View>
+        </View>
+      </TapGestureHandler>
+    );
+  }
+                    </View>
+                  </Animated.ScrollView>
+                </NativeViewGestureHandler>
+              </Animated.View>
+            </PanGestureHandler>
+          </Animated.View>
+        </View>
+      </TapGestureHandler>
     );
   }
 }
 
-export default class Example2 extends Component {
+export default class Example extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -187,18 +180,9 @@ export default class Example2 extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
   header: {
     height: HEADER_HEIGHT,
     backgroundColor: "red",
-  },
-  image: {
-    width: "100%",
-    // height: "52%",
-  },
-  ViewContainer: {
-    flex: 1,
-    backgroundColor: "#fff",
   },
 });

@@ -4786,6 +4786,11 @@ react-native-screens@~3.8.0:
   dependencies:
     warn-once "^0.1.0"
 
+react-native-steve@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-steve/-/react-native-steve-0.4.1.tgz#71e67ae0e560b42503e72c28a0683746161c0a0e"
+  integrity sha512-Lo9LvkufyP92cDLNvrgojKmCJf0FoVV1niB8Z3DtUx0F2nWQ33neGDowbDYUQMPHnvOY2tgn11ZRY8As716qKw==
+
 react-native-swiper@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.6.0.tgz#59fdbdf95addee49630312f27077622c27776819"
