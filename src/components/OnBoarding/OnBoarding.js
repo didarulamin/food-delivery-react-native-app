@@ -30,12 +30,12 @@ export default function OnBoarding({ setOnBoarding }) {
   };
   const onDone = async () => {
     try {
-      await AsyncStorage.setItem("onboarding", JSON.stringify(false));
+      await AsyncStorage.setItem("onboarding", JSON.stringify(true));
     } catch (e) {
       console.log(e);
     }
 
-    setOnBoarding(false);
+    setOnBoarding(true);
   };
 
   const renderDoneButton = () => {

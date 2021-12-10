@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "621337562819",
+    "project_id": "react-native-notes-app-9b615",
+    "storage_bucket": "react-native-notes-app-9b615.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:621337562819:android:875aa6767686d95c6c5c76",
+        "android_client_info": {
+          "package_name": "food.devlivery.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "621337562819-klqv5kkb9sul70u2vajva7h9pfjr9v4r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdmz-CmX5YCzXSLljd7eAZLvASF8nJBEM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "621337562819-klqv5kkb9sul70u2vajva7h9pfjr9v4r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

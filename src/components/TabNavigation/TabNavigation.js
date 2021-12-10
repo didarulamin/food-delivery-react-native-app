@@ -13,6 +13,13 @@ import NearestRestaurant from "../../screens/NearestRestaurant";
 import PopularMenu from "../../screens/PopularMenu";
 import RestaurantDetails from "../../screens/RestaurantDetails";
 import PopularMenuDetails from "../../screens/PopularMenuDetails";
+import { Counter } from "../counter";
+import Login from "../../screens/Login";
+import Register from "../../screens/Register";
+import SignUpBio from "../../screens/SignUpBio";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../../../redux/userSlice";
+import { selectCartLength } from "../../../redux/cartSlice";
 
 export default function Navigation() {
   return (
@@ -24,6 +31,8 @@ export default function Navigation() {
 
 const Tab = createBottomTabNavigator();
 function TabNavigation() {
+  const cartLength = useSelector(selectCartLength);
+  console.log(cartLength);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -104,7 +113,7 @@ function TabNavigation() {
         component={CartStackScreens}
         options={{
           headerShown: false,
-          tabBarBadge: 2,
+          tabBarBadge: ` ${cartLength}`,
           tabBarBadgeStyle: {
             position: "relative",
             top: 20,
@@ -177,23 +186,48 @@ function TabNavigation() {
 const Stack = createNativeStackNavigator();
 
 function MainNavigation() {
+  const user = useSelector(selectUser);
+  console.log(user, "TabNavigation");
+
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="TabNavigation"
-        component={TabNavigation}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="RestaurantDetails"
-        component={RestaurantDetails}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="PopularMenuDetails"
-        component={PopularMenuDetails}
-        options={{ headerShown: false }}
-      />
+      {!user.email ? (
+        <>
+          <Stack.Screen
+            name="login"
+            component={Login}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={Register}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="signUpBio"
+            component={SignUpBio}
+            options={{ headerShown: false }}
+          />
+        </>
+      ) : (
+        <>
+          <Stack.Screen
+            name="TabNavigation"
+            component={TabNavigation}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="RestaurantDetails"
+            component={RestaurantDetails}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="PopularMenuDetails"
+            component={PopularMenuDetails}
+            options={{ headerShown: false }}
+          />
+        </>
+      )}
     </Stack.Navigator>
   );
 }

@@ -14,9 +14,47 @@ import { spacing, typography } from "../../theme";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectCart,
+  deleteFromCart,
+  addToCart,
+  updateCartProduct,
+  selectTotalAmount,
+  selectTotal,
+  selectDiscount,
+  selectDeliveryCharge,
+  placeOrder,
+  saveUserOrders,
+} from "../../redux/cartSlice";
+import { selectUser } from "../../redux/userSlice";
+import CounterButton from "../components/CounterButton";
+
 export default function Cart() {
-  const [counter, setCounter] = React.useState(0);
-  const rightSwipeActions = (progress, dragX) => {
+  const dispatch = useDispatch();
+  // const count = useSelector(selectCount);
+  const cart = useSelector(selectCart);
+  const totalAmount = useSelector(selectTotalAmount);
+  let grandTotal = selectTotal;
+  const discount = selectDiscount;
+  const deliveryCharge = selectDeliveryCharge;
+  const user = useSelector(selectUser);
+  console.log(user, "user");
+  const { email, displayName, uid, address, location, mobile } = user;
+
+  const onAmountChange = (value, cartItem) => {
+    console.log(value, "value");
+    console.log(cartItem, "cartItem");
+    const cartProduct = {
+      ...cartItem,
+      quantityPrice: parseInt(value) * parseFloat(cartItem.price),
+      amount: parseInt(value),
+    };
+
+    dispatch(updateCartProduct({ cartProduct }));
+  };
+
+  const rightSwipeActions = (dragX, item) => {
     const scale = dragX.interpolate({
       inputRange: [0, 300],
       outputRange: [0, 2],
@@ -31,7 +69,7 @@ export default function Cart() {
           marginVertical: spacing[3],
           borderRadius: 15,
         }}
-        onPress={() => console.log("Delete")}
+        onPress={() => dispatch(deleteFromCart(item))}
       >
         <View
           style={{
@@ -59,7 +97,7 @@ export default function Cart() {
   };
 
   const popularMenuItem = ({ item }) => (
-    <Swipeable renderRightActions={rightSwipeActions}>
+    <Swipeable renderRightActions={(dragX) => rightSwipeActions(dragX, item)}>
       <View
         key={item.id}
         style={{
@@ -111,52 +149,169 @@ export default function Cart() {
                 color: "#FFAD1D",
               }}
             >
-              $ {item.price}
+              ${!item.amount ? item.price : item.quantityPrice}
             </Text>
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
+          <CounterButton
+            initialVal={item.amount}
+            setAmount={(value) => {
+              onAmountChange(value, item);
             }}
-          >
-            <Entypo
-              name="minus"
-              size={24}
-              color="black"
-              style={{
-                backgroundColor: "#E3CBBC",
-                padding: 5,
-                borderRadius: 10,
-              }}
-              onPress={() => setCounter(counter - 1)}
-            />
-            <Text
-              style={{
-                fontSize: 18,
-                fontFamily: typography.Medium,
-                marginHorizontal: 10,
-              }}
-            >
-              {counter}
-            </Text>
-            <Entypo
-              name="plus"
-              size={24}
-              color="white"
-              style={{
-                backgroundColor: "#E38751",
-                padding: 5,
-                borderRadius: 10,
-              }}
-              onPress={() => setCounter(counter + 1)}
-            />
-          </View>
+          />
         </View>
       </View>
     </Swipeable>
   );
+
+  const Total = () => {
+    return (
+      <View
+        style={{
+          backgroundColor: "#32d180",
+          height: 206,
+          padding: 20,
+          borderRadius: 20,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            fontSize: 16,
+            fontFamily: typography.Medium,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              fontFamily: typography.Medium,
+              color: "white",
+            }}
+          >
+            Sub-Total
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              fontFamily: typography.Medium,
+              color: "white",
+            }}
+          >
+            {totalAmount} $
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            fontSize: 16,
+            fontFamily: typography.Medium,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              fontFamily: typography.Medium,
+              color: "white",
+            }}
+          >
+            Delivery Charge
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              fontFamily: typography.Medium,
+              color: "white",
+            }}
+          >
+            {deliveryCharge} $
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            fontSize: 16,
+            fontFamily: typography.Medium,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              fontFamily: typography.Medium,
+              color: "white",
+            }}
+          >
+            Discount
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              fontFamily: typography.Medium,
+              color: "white",
+            }}
+          >
+            {discount} $
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            fontSize: 18,
+            fontFamily: typography.Medium,
+            marginTop: 10,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              fontFamily: typography.Medium,
+              color: "white",
+            }}
+          >
+            Total
+          </Text>
+          <Text
+            style={{
+              fontSize: 18,
+              fontFamily: typography.Medium,
+              color: "white",
+            }}
+          >
+            {(grandTotal = totalAmount + grandTotal)} $
+          </Text>
+        </View>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "white",
+            padding: 10,
+            borderRadius: 15,
+            marginTop: 15,
+          }}
+          onPress={() =>
+            dispatch(
+              saveUserOrders({
+                cart: [...cart],
+                grandTotal,
+                uid,
+                email,
+                displayName,
+                address,
+                location,
+                mobile,
+                timestamp: Date.now(),
+              })
+            )
+          }
+        >
+          <Text style={{ textAlign: "center", color: "#32d180", fontSize: 20 }}>
+            Place My Order
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
   return (
     <View>
@@ -172,10 +327,14 @@ export default function Cart() {
         {/* {FoodData.map((item) => popularMenuItem({ item }))} */}
         <FlatList
           contentContainerStyle={{ padding: 20 }}
-          data={FoodData}
+          data={cart}
           renderItem={popularMenuItem}
           keyExtractor={(item) => item.id}
-          ListFooterComponent={<View style={{ height: 430 }} />}
+          ListFooterComponent={
+            <View style={{ marginBottom: 430 }}>
+              <Total />
+            </View>
+          }
         />
       </SafeAreaView>
     </View>

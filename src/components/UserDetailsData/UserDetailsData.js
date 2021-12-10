@@ -1,10 +1,23 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { spacing, typography, colors } from "../../../theme";
 import FoodData from "../../../DemoData/Food";
+import Button from "../Button";
+import { useDispatch, useSelector } from "react-redux";
+import { handleSignOut } from "../../../redux/userSlice";
 
 export default function UserDetailsData() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userAuth.user);
+
   const popularMenuItem = ({ item }) => (
     <View
       key={item.id}
@@ -107,35 +120,57 @@ export default function UserDetailsData() {
             Member Gold
           </Text>
         </View>
+        <TouchableOpacity
+          style={{
+            backgroundColor: colors.lightOrange,
+            // opacity: 0.5,
+            padding: spacing[3],
+            borderRadius: 15,
+            // height: 34,
+          }}
+          onPress={() => {
+            dispatch(handleSignOut());
+          }}
+        >
+          <Text
+            style={{
+              color: colors.background,
+              fontSize: 20,
+              fontFamily: typography.Medium,
+            }}
+          >
+            Logout
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <View style={{ marginBottom: spacing[4] }}>
         <Text style={{ fontFamily: typography.MediumBold, fontSize: 27 }}>
-          Anam Wusono
+          {user.displayName}
         </Text>
         <View style={{ flexDirection: "row", marginVertical: spacing[2] }}>
           <View style={{ flexDirection: "row" }}>
-            <Text style={{ fontSize: 16 }}>anamanam@gmail.com</Text>
+            <Text style={{ fontSize: 16 }}>{user.email}</Text>
           </View>
         </View>
       </View>
 
       <SafeAreaView
-      /*  style={{
-          flexDirection: "column",
+        style={{
+          /* flexDirection: "column",
           display: "flex",
-          justifyContent: "space-around",
-          padding: 20,
-        }} */
+          justifyContent: "space-around", */
+          marginBottom: 70,
+        }}
       >
-        {/* {FoodData.map((item) => popularMenuItem({ item }))} */}
-        <FlatList
+        {FoodData.map((item) => popularMenuItem({ item }))}
+        {/*      <FlatList
           contentContainerStyle={{ padding: 20 }}
           data={FoodData}
           renderItem={popularMenuItem}
           keyExtractor={(item) => item.id}
           ListFooterComponent={<View style={{ height: 430 }} />}
-        />
+        /> */}
       </SafeAreaView>
     </View>
   );

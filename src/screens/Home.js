@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -18,9 +18,19 @@ import { spacing, typography } from "../../theme";
 import RestaurantData from "../../DemoData/Restaurant";
 import FoodData from "../../DemoData/Food";
 import { useNavigation } from "@react-navigation/native";
+import { fetchFoods, selectFoods } from "../../redux/foodSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
   // console.log(RestaurantData);
+  const dispatch = useDispatch();
+  const foodList = useSelector((state) => state?.food);
+
+  // dispatch(fetchFoods());
+
+  /*   useEffect(() => {
+    dispatch(fetchFoods());
+  }, []); */
 
   const navigation = useNavigation();
 
@@ -80,7 +90,10 @@ export default function Home() {
       }}
       onPress={() => navigation.navigate("PopularMenuDetails", { item })}
     >
-      <Image source={item.image} />
+      <Image
+        source={{ uri: item.image }}
+        style={{ height: 70, width: 70, borderRadius: 10 }}
+      />
       <View
         style={{
           flex: 1,
@@ -232,7 +245,7 @@ export default function Home() {
             Popular Menu
           </Text>
           <Text
-            onPress={() => navigation.navigate("PopularMenu")}
+            onPress={() => navigation.navigate("PopularMenu", { foodList })}
             style={{
               color: "#E6A986",
               fontFamily: typography.Medium,
@@ -251,7 +264,7 @@ export default function Home() {
             padding: 20,
           }}
         >
-          {FoodData.slice(0, 4).map((item) => popularMenuItem({ item }))}
+          {foodList?.slice(0, 4).map((item) => popularMenuItem({ item }))}
         </SafeAreaView>
       </View>
     </ScrollView>

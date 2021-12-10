@@ -69,11 +69,11 @@ export default function Register({ navigation }) {
           />
         </View>
         <Button
-          title="Create Account"
+          title="Next"
           titleColor={{ color: "white" }}
           onPress={() => navigation.navigate("signUpBio")}
         />
-        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity onPress={() => navigation.navigate("login")}>
           <Text
             style={{
               textAlign: "center",

@@ -1,0 +1,33 @@
+{
+  "foods": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "restaurant": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "typicode"
+    }
+  ],
+  "users": [
+    {
+      "name": "typicode"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ]
+}

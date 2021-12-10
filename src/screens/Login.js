@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,14 +10,68 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
+import * as AppAuth from "expo-app-auth";
+
+// When configured correctly, URLSchemes should contain your REVERSED_CLIENT_ID
 
 import Button from "../components/Button";
 import Input from "../components/Input";
 import InputIcon from "../components/InputIcon";
 import InputPass from "../components/InputPass";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInUsingEmail,
+  selectUser,
+  handleSignOut,
+} from "../../redux/userSlice";
+import * as GoogleSignIn from "expo-google-sign-in";
 export default function Login({ navigation }) {
+  const { URLSchemes } = AppAuth;
+  const [state, setState] = useState(null);
+  console.log(URLSchemes);
+  const syncUserWithStateAsync = async () => {
+    const user = await GoogleSignIn.signInSilentlyAsync();
+    setState({ user });
+  };
+  const initAsync = async () => {
+    await GoogleSignIn.initAsync({
+      // You may ommit the clientId when the firebase `googleServicesFile` is configured
+      /* clientId: '<YOUR_IOS_CLIENT_ID>', */
+    });
+    syncUserWithStateAsync();
+  };
+  const signOutAsync = async () => {
+    await GoogleSignIn.signOutAsync();
+    setState({ user: null });
+  };
+  const signInAsync = async () => {
+    try {
+      await GoogleSignIn.askForPlayServicesAsync();
+      const { type, user } = await GoogleSignIn.signInAsync();
+      if (type === "success") {
+        syncUserWithStateAsync();
+      }
+    } catch ({ message }) {
+      alert("login: Error:" + message);
+    }
+  };
+  const googleSignIn = () => {
+    if (state?.user) {
+      signOutAsync();
+    } else {
+      signInAsync();
+    }
+  };
   //   const [showPassword, setShowPassword] = React.useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  console.log(email);
+  console.log(password);
+  const userDetails = { email, password };
+  console.log(userDetails);
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  console.log(user?.email, "login user");
 
   return (
     <ScrollView>
@@ -47,9 +101,18 @@ export default function Login({ navigation }) {
           >
             Login To Your Account
           </Text>
-          <InputIcon placeholder="Email" iconName="ios-mail" />
 
-          <InputPass placeholder="Password" iconName="ios-lock-closed" />
+          <InputIcon
+            placeholder="Email"
+            iconName="ios-mail"
+            onChangeText={(email) => setEmail(email)}
+          />
+
+          <InputPass
+            placeholder="Password"
+            iconName="ios-lock-closed"
+            onChangeText={(password) => setPassword(password)}
+          />
 
           <Text
             style={{
@@ -91,6 +154,7 @@ export default function Login({ navigation }) {
                 alignItems: "center",
                 borderRadius: 15,
               }}
+              onPress={googleSignIn}
             >
               <Image source={require("../../assets/google-icon.png")}></Image>
               <Text style={{ marginHorizontal: 10 }}>Google</Text>
@@ -119,7 +183,11 @@ export default function Login({ navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
-        <Button title="Login" titleColor={{ color: "white" }} />
+        <Button
+          title="Login"
+          titleColor={{ color: "white" }}
+          onPress={() => dispatch(signInUsingEmail(userDetails))}
+        />
         {/*     </View> */}
       </KeyboardAvoidingView>
     </ScrollView>

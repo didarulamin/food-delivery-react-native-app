@@ -7,14 +7,18 @@ import {
   Image,
   FlatList,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import SearchBar from "../components/SearchBar/SearchBar";
-import FoodData from "../../DemoData/Food";
 import { spacing, typography } from "../../theme";
 
 export default function PopularMenu() {
+  const route = useRoute();
+  const navigation = useNavigation();
+  const foodList = route.params.foodList;
   const popularMenuItem = ({ item }) => (
-    <View
+    <TouchableOpacity
       key={item.id}
       style={{
         backgroundColor: "white",
@@ -26,8 +30,12 @@ export default function PopularMenu() {
         marginVertical: spacing[3],
         borderRadius: 15,
       }}
+      onPress={() => navigation.navigate("PopularMenuDetails", { item })}
     >
-      <Image source={item.image} />
+      <Image
+        source={{ uri: item.image }}
+        style={{ height: 70, width: 70, borderRadius: 10 }}
+      />
       <View
         style={{
           flex: 1,
@@ -61,7 +69,7 @@ export default function PopularMenu() {
           ${item.price}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -75,7 +83,7 @@ export default function PopularMenu() {
           padding: 20,
         }}
       >
-        {FoodData.map((item) => popularMenuItem({ item }))}
+        {foodList.map((item) => popularMenuItem({ item }))}
         {/*    <FlatList
           data={FoodData}
           renderItem={popularMenuItem}
