@@ -16,10 +16,29 @@ import Input from "../components/Input";
 import InputIcon from "../components/InputIcon";
 import InputPass from "../components/InputPass";
 import RadioInput from "../components/RadioInput";
+import { signUpUsingEmail } from "../../redux/userSlice";
+import { useDispatch } from "react-redux";
 
 export default function Register({ navigation }) {
+  const dispatch = useDispatch();
   const [newsLetter, setNewsLetter] = useState(false);
   const [KeepSignIn, setKeepSignIn] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const userData = {
+    email: email,
+    password: password,
+    userName: userName,
+    newsLetter: newsLetter,
+    KeepSignIn: KeepSignIn,
+  };
+
+  const handleNext = (userData) => {
+    // dispatch(signUpUsingEmail(userData));
+    navigation.navigate("signUpBio", { userData });
+  };
 
   return (
     <ScrollView>
@@ -49,12 +68,21 @@ export default function Register({ navigation }) {
           >
             Sign Up For Free
           </Text>
-          <InputIcon placeholder="Username" iconName="person" />
-          <InputIcon placeholder="Email" iconName="ios-mail" />
+          <InputIcon
+            placeholder="Username"
+            iconName="person"
+            onChangeText={(text) => setUserName(text)}
+          />
+          <InputIcon
+            placeholder="Email"
+            iconName="ios-mail"
+            onChangeText={(text) => setEmail(text)}
+          />
           <InputPass
             placeholder="Password"
             secureTextEntry={true}
             iconName="ios-lock-closed"
+            onChangeText={(text) => setPassword(text)}
           />
 
           <RadioInput
@@ -69,9 +97,10 @@ export default function Register({ navigation }) {
           />
         </View>
         <Button
+          customStyles={{ width: 100 }}
           title="Next"
           titleColor={{ color: "white" }}
-          onPress={() => navigation.navigate("signUpBio")}
+          onPress={() => handleNext(userData)}
         />
         <TouchableOpacity onPress={() => navigation.navigate("login")}>
           <Text

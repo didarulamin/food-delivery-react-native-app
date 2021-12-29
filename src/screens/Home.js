@@ -25,6 +25,7 @@ export default function Home() {
   // console.log(RestaurantData);
   const dispatch = useDispatch();
   const foodList = useSelector((state) => state?.food);
+  const restaurantList = useSelector((state) => state?.restaurant);
 
   // dispatch(fetchFoods());
 
@@ -51,7 +52,7 @@ export default function Home() {
     >
       <Image
         style={{ height: 73, width: 96, marginTop: spacing[6] }}
-        source={item.image}
+        source={{ uri: item.image }}
       />
       <Text
         style={{
@@ -228,7 +229,7 @@ export default function Home() {
             contentContainerStyle={{ paddingHorizontal: 10 }}
             showsHorizontalScrollIndicator={false}
             horizontal={true}
-            data={RestaurantData}
+            data={restaurantList}
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
           />

@@ -6,20 +6,28 @@ const initialState = [];
 export const saveUserOrders = createAsyncThunk(
   "saveUserOrders",
   async (initialOrder) => {
+    console.log(initialOrder.cart.length);
     if (initialOrder.cart.length === 0) {
       showMessage({
         message: "Cart is empty",
         type: "danger",
       });
       return;
+    } else {
+      const res = await axios.post(
+        "https://immense-tundra-77464.herokuapp.com/orders/",
+        {
+          ...initialOrder,
+        }
+      );
+
+      showMessage({
+        message: "Order placed successfully",
+        type: "success",
+      });
+
+      return res.data;
     }
-    const res = await axios.post(
-      "https://immense-tundra-77464.herokuapp.com/orders/",
-      {
-        ...initialOrder,
-      }
-    );
-    return res.data;
   }
 );
 
@@ -95,10 +103,14 @@ export const cartSlice = createSlice({
     },
     [saveUserOrders.fulfilled]: (state, action) => {
       console.log("fulfilled");
-      showMessage({
-        message: "Order placed successfully",
-        type: "success",
-      });
+      // console.log(action.payload, "action.payload");
+      /*   const acknowledge = action.payload?.acknowledge;
+      if (acknowledge) {
+        showMessage({
+          message: "Order placed successfully",
+          type: "success",
+        });
+      } */
       return initialState;
     },
     [saveUserOrders.rejected]: (state, action) => {

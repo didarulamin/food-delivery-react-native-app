@@ -27,9 +27,10 @@ import {
   saveUser,
   setAuth,
 } from "./redux/userSlice";
+import { fetchRestaurants } from "./redux/restaurantSlice";
 import { LogBox } from "react-native";
 import FlashMessage from "react-native-flash-message";
-import { fetchFoods, selectFoods } from "./redux/foodSlice";
+import { fetchFoods, selectLoaded } from "./redux/foodSlice";
 initializeAuthentication();
 
 const MainApp = () => {
@@ -45,6 +46,9 @@ LogBox.ignoreLogs(["AsyncStorage"]);
 // LogBox.ignoreAllLogs();
 function App() {
   // LogBox.ignoreAllLogs();
+  // let loaded = true;
+  const loaded = useSelector(selectLoaded);
+  console.log("loaded", loaded);
   const [userLoading, setUserLoading] = React.useState(true);
   const auth = getAuth();
   const user = useSelector(selectUser);
@@ -52,14 +56,16 @@ function App() {
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(setAuth(auth));
-    dispatch(fetchFoods());
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(saveUser(user));
-        setUserLoading(false);
+        dispatch(fetchFoods());
+        dispatch(fetchRestaurants());
+        setUserLoading(!loaded);
       } else {
         dispatch(saveUser({}));
-        setUserLoading(false);
+        // setUserLoading(false);
       }
     });
   }, [user.email, dispatch]);
@@ -96,9 +102,9 @@ function App() {
   } else {
     return onBoarding ? (
       userLoading ? (
-        <AppLoading />
-      ) : (
         <MainApp />
+      ) : (
+        <AppLoading />
       )
     ) : (
       <OnBoarding setOnBoarding={setOnBoarding} />

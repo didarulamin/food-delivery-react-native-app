@@ -111,7 +111,7 @@ export default function Cart() {
           borderRadius: 15,
         }}
       >
-        <Image source={item.image} />
+        <Image source={{ uri: item.image }} />
         <View
           style={{
             flex: 1,

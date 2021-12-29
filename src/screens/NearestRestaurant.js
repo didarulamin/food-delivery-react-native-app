@@ -43,7 +43,7 @@ export default function NearestRestaurant() {
       >
         <Image
           style={{ height: 73, width: 96, marginTop: spacing[6] }}
-          source={item.image}
+          source={{ uri: item.image }}
         />
         <Text
           style={{

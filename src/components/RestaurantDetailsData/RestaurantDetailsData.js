@@ -14,14 +14,22 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
-import FoodData from "../../../DemoData/Food";
+// import FoodData from "../../../DemoData/Food";
 import TestimonialData from "../../../DemoData/Testimonial";
 import { colors, spacing, typography } from "../../../theme";
 import Steve from "react-native-steve";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { LogBox } from "react-native";
 
 export default function RestaurantDetailsData({ RestaurantData }) {
+  useEffect(() => {
+    LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
+  }, []);
+
   const navigation = useNavigation();
+  const FoodData = RestaurantData.food;
   const renderItem = ({ item }) => (
     <Pressable
       onPress={() => navigation.navigate("PopularMenuDetails", { item })}
@@ -41,7 +49,7 @@ export default function RestaurantDetailsData({ RestaurantData }) {
       >
         <Image
           style={{ height: 73, width: 96, marginTop: spacing[6] }}
-          source={item.image}
+          source={{ uri: item.image }}
         />
         <Text
           style={{
@@ -226,32 +234,31 @@ export default function RestaurantDetailsData({ RestaurantData }) {
         /> */}
 
         <Animated.ScrollView
-          // style={{ maxWidth: 300 }}
-          scrollEnabled={true}
-          horizontal={true}
-          nestedScrollEnabled={true}
+        // style={{ flexWrap: "wrap", flex: 1, flexDirection: "column" }}
+        // scrollEnabled={true}
+        // horizontal={true}
+        // nestedScrollEnabled={true}
         >
-          {/*  {RestaurantData.slice(0, 4).map((item, index) =>
-            renderItem({ item })
-          )} */}
+          {/* {FoodData.map((item, index) => renderItem({ item }))} */}
 
-          <Steve
+          {/*   <Steve
             // isRTL={false}
             data={FoodData}
             renderItem={renderItem}
             // itemStyle={{ margin: 5 }}
             // containerStyle={steveContainer}
             keyExtractor={(item) => item.id}
-          />
-
-          {/*    <FlatList
-            // contentContainerStyle={{ paddingHorizontal: 10 }}
-            // showsHorizontalScrollIndicator={false}
-            horizontal={true}
-            data={RestaurantData}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
           /> */}
+
+          <FlatList
+            contentContainerStyle={{ alignSelf: "center" }}
+            // showsHorizontalScrollIndicator={false}
+            // horizontal={true}
+            data={FoodData}
+            renderItem={renderItem}
+            numColumns={2}
+            keyExtractor={(item) => item.id}
+          />
         </Animated.ScrollView>
       </SafeAreaView>
 

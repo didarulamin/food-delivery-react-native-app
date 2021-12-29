@@ -184,6 +184,7 @@ export default function Login({ navigation }) {
           </TouchableOpacity>
         </View>
         <Button
+          customStyles={{ width: 100 }}
           title="Login"
           titleColor={{ color: "white" }}
           onPress={() => dispatch(signInUsingEmail(userDetails))}

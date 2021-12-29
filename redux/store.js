@@ -3,6 +3,7 @@ import counterReducer from "./counterSlice";
 import userReducer from "./userSlice";
 import cartReducer from "./cartSlice";
 import foodReducer from "./foodSlice";
+import restaurantReducer from "./restaurantSlice";
 // import { composeWithDevTools } from "remote-redux-devtools";
 
 // import { combineReducers } from "redux";
@@ -32,6 +33,7 @@ export const store = configureStore({
     userAuth: userReducer,
     cart: cartReducer,
     food: foodReducer,
+    restaurant: restaurantReducer,
   },
 
   middleware: (getDefaultMiddleware) =>
