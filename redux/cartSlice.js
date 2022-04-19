@@ -15,7 +15,7 @@ export const saveUserOrders = createAsyncThunk(
       return;
     } else {
       const res = await axios.post(
-        "https://immense-tundra-77464.herokuapp.com/orders/",
+        "https://immense-headland-80041.herokuapp.com/orders/",
         {
           ...initialOrder,
         }

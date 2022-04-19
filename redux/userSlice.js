@@ -18,7 +18,7 @@ export const saveUserData = createAsyncThunk(
     console.log(data, "data");
     {
       const res = await axios.post(
-        "https://immense-tundra-77464.herokuapp.com/saveUser/",
+        "https://immense-headland-80041.herokuapp.com/saveUser/",
         {
           ...userData,
         }

@@ -4,7 +4,7 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 
 export const fetchFoods = createAsyncThunk("fetchFoods", async () => {
   const res = await axios.get(
-    "https://immense-tundra-77464.herokuapp.com/allFoods/"
+    "https://immense-headland-80041.herokuapp.com/allFoods/"
   );
   const allFoods = res.data;
   console.log(allFoods);

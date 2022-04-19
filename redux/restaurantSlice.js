@@ -6,7 +6,7 @@ export const fetchRestaurants = createAsyncThunk(
   "fetchRestaurants",
   async () => {
     const res = await axios.get(
-      "https://immense-tundra-77464.herokuapp.com/allRestaurant/"
+      "https://immense-headland-80041.herokuapp.com/allRestaurant/"
     );
     const allRestaurants = res.data;
 
